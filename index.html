@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Math Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #e67e22;
+      color: white;
+      font-weight: bold;
+      margin-top: 20px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #d35400;
+    }
+
+    .result {
+      font-size: 18px;
+      font-weight: bold;
+      color: #34495e;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .history {
+      background: #fff;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    .history h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .history ul {
+      list-style: none;
+      padding-left: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .history li {
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .history li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <h1>Math Calculator</h1>
+
+    <label for="num1">First Number:</label>
+    <input type="number" id="num1" placeholder="e.g. 10" />
+
+    <label for="num2">Second Number:</label>
+    <input type="number" id="num2" placeholder="e.g. 5" />
+
+    <label for="operation">Operation:</label>
+    <select id="operation">
+      <option value="add">Addition (+)</option>
+      <option value="subtract">Subtraction (−)</option>
+      <option value="multiply">Multiplication (×)</option>
+      <option value="divide">Division (÷)</option>
+      <option value="percent">Percentage (% of)</option>
+      <option value="power">Power (xʸ)</option>
+    </select>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result">Result: </div>
+  </div>
+
+  <div class="history">
+    <h2>Calculation History</h2>
+    <ul id="historyList"></ul>
+  </div>
+
+  <script>
+    const resultEl = document.getElementById('result');
+    const historyList = document.getElementById('historyList');
+
+    function calculate() {
+      const num1 = parseFloat(document.getElementById("num1").value);
+      const num2 = parseFloat(document.getElementById("num2").value);
+      const op = document.getElementById("operation").value;
+      let resultText = "";
+      let historyEntry = "";
+
+      if (isNaN(num1) || isNaN(num2)) {
+        resultText = "Please enter both numbers.";
+      } else {
+        switch (op) {
+          case "add":
+            resultText = num1 + num2;
+            historyEntry = `${num1} + ${num2} = ${resultText}`;
+            break;
+          case "subtract":
+            resultText = num1 - num2;
+            historyEntry = `${num1} - ${num2} = ${resultText}`;
+            break;
+          case "multiply":
+            resultText = num1 * num2;
+            historyEntry = `${num1} × ${num2} = ${resultText}`;
+            break;
+          case "divide":
+            if (num2 === 0) {
+              resultText = "Cannot divide by zero";
+              historyEntry = `${num1} ÷ ${num2} = Error`;
+            } else {
+              resultText = num1 / num2;
+              historyEntry = `${num1} ÷ ${num2} = ${resultText}`;
+            }
+            break;
+          case "percent":
+            resultText = (num1 / 100) * num2;
+            historyEntry = `${num1}% of ${num2} = ${resultText}`;
+            break;
+          case "power":
+            resultText = Math.pow(num1, num2);
+            historyEntry = `${num1}^${num2} = ${resultText}`;
+            break;
+        }
+      }
+
+      resultEl.textContent = "Result: " + resultText;
+
+      if (historyEntry) {
+        const li = document.createElement("li");
+        li.textContent = historyEntry;
+        historyList.prepend(li);
+      }
+    }
+  </script>
+
+</body>
+</html>
